@@ -9,7 +9,7 @@ function data = read_UA02D(data_ffn,skip_wraob)
 % skip_wraob (logical) - skip wind raobs
 %
 %FORMAT:
-% snd_data.data#.flight      (1x1 uniq flight number)
+%              data.flight      (1x1 uniq flight number)
 %                  .dt_utc      (1x1 datetime in UTC)
 %                  .id          (1x1 bom site id)
 %                  .wmo_id      (1x1 wmo site id)
@@ -17,7 +17,7 @@ function data = read_UA02D(data_ffn,skip_wraob)
 %                  .lon         (1x1 site lon dec degs)
 %                  .elev        (1x1 site elevation dec degs)
 %                  .pres        (nx1 presure - hpa)
-%                  .gpm         (nx1 height - m)
+%                  .h           (nx1 height - m)
 %                  .temp        (nx1 temperature - degC)
 %                  .dwpt        (nx1 dew point temperature - degC
 %                  .wdir        (nx1 wind direction - degTN)
@@ -103,6 +103,8 @@ if all(isnan(temp(2:end)))
 else
     data.wraob = false;
 end
+
+data.amdar = false;
 
 %SHARPPY/shappy/sharptab/thermo.py
 function vt=calc_tempv(p, t, td)
