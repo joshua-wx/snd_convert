@@ -16,7 +16,7 @@ function data = read_amdar(data_ffn)
 %                  .lon         (1x1 long of lowest data point)
 %                  .elev        (1x1 elev of lowest data point)
 %                  .pres        (nx1 DUMMY presure - hpa)
-%                  .gpm         (nx1 height of amdar data - m)
+%                  .h           (nx1 height of amdar data - m)
 %                  .temp        (nx1 temperature - degC)
 %                  .dwpt        (nx1 DUMMY dew point temperature - degC
 %                  .wdir        (nx1 wind direction - degTN)
@@ -24,8 +24,9 @@ function data = read_amdar(data_ffn)
 %                  .wlat        (nx1 lat of amdar data)
 %                  .wlon        (nx1 lon of amdar data)
 %                  .wdt         (nx1 dt of  profile data)
-%                  .amdar             (1x1 true for amdar)
-%                  .wraob             (1x1 false for amdars)
+%                  .amdar       (1x1 true for amdar)
+%                  .wraob       (1x1 false for amdars)
+%                  .ddwind      (1x1 false for amdars)
 %% init
 data       = struct;
 
@@ -47,6 +48,9 @@ raw_wspd   = C{8};
 %% find uniq flight numbers
 raw_fltnums         = C{2};
 [uniq_fltnums,~,ic] = unique(raw_fltnums);
+
+%% convert alt in feet to m
+raw_alt = raw_alt.*0.305;
 
 %extract
 for i=1:length(uniq_fltnums)
@@ -81,5 +85,6 @@ for i=1:length(uniq_fltnums)
     %flag data
     data.(data_field).amdar = true;
     data.(data_field).wraob = false;
+    data.(data_field).ddwind= false;
 end
     
