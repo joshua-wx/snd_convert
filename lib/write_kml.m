@@ -29,7 +29,7 @@ mark_str = ge_folder('',mark_str,'flight markers','',1);
 %collate into folder
 kml_str = ge_folder(kml_str,[mark_str,line_str],[data.flight,'-',datestr(data.dt_utc(1),'HHMM')],'',1);
 %write out
-ge_fn = [datestr(data.dt_utc(1),'yyyymmdd'),'_',station_name,'_ge_output'];
+ge_fn = [datestr(data.dt_utc(1),'yyyymmddHHMM'),'_',station_name,'_ge_output'];
 ge_kml_out([out_path,'/',ge_fn],ge_fn,kml_str);
 
 display('processing finished')

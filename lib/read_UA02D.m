@@ -23,6 +23,8 @@ function data = read_UA02D(data_ffn,skip_wraob)
 %                  .wdir        (nx1 wind direction - degTN)
 %                  .wspd        (nx1 wind speed - m/s)
 %                  .wraob       (1x1 true for wind only sounding)
+%                  .amdar       (1x1 false for soundings)
+%                  .ddwind      (1x1 false for soundings)   
 %Input
 %read entire file to strings
 %note: whitespace option preserves leading white spaces
@@ -105,6 +107,7 @@ else
 end
 
 data.amdar = false;
+data.ddwind= false;
 
 %SHARPPY/shappy/sharptab/thermo.py
 function vt=calc_tempv(p, t, td)
