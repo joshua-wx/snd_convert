@@ -63,7 +63,7 @@ for i=1:length(uniq_fltnums)
     %time
     
     %lat,lon,gpm, wspd, wdir, temp
-    data.(data_field).wspd = raw_wspd(flt_ind);
+    data.(data_field).wspd = raw_wspd(flt_ind).*0.514;
     data.(data_field).wdir = raw_wdir(flt_ind);
     data.(data_field).wlat = raw_lat(flt_ind);
     data.(data_field).wlon = raw_lon(flt_ind);

@@ -11,7 +11,7 @@ function write_kml(out_path,data,station_name)
 
 %initalise
 kml_str = '';
-kml_str = ge_line_style(kml_str,'line_style',html_color(1,[1,1,0]),2);
+kml_str = ge_line_style(kml_str,'line_style',html_color(1,[1,1,1]),5);
 kml_str = ge_placemark_style(kml_str,'placemark_style');
 
 %create a line segment between markers
@@ -20,9 +20,13 @@ line_str = ge_folder('',line_str,'flight track','',1);
 %create placemarkers for each obs
 mark_str = '';
 for j = 1:length(data.h)
-    place_id = [data.flight,'-',datestr(data.wdt(j),'HHMM')];
+    if j==1 || j==length(data.h)
+        place_id = [num2str(round(data.h(j))),'m_',datestr(data.wdt(j),'HH:MM'),'Z_',data.flight];
+    else
+        place_id = [num2str(round(data.h(j))),'m_',datestr(data.wdt(j),'HH:MM'),'Z'];
+    end
     %create timestep for marker time
-    stop_time = addtodate(data.wdt(j),10,'minute');
+    stop_time = addtodate(data.wdt(j),1,'minute');
     mark_str = ge_placemark(mark_str,1,'placemark_style',place_id,data.temp(j),data.wspd(j),data.wdir(j),data.wlat(j),data.wlon(j),data.h(j),data.wdt(j),stop_time);
 end
 mark_str = ge_folder('',mark_str,'flight markers','',1);
@@ -140,7 +144,7 @@ out=['<Style id="',Style_id,'">',10,...
        '</BalloonStyle>',10,...
        '<IconStyle>',10,...
 			'<Icon>',10,...
-				'<href>https://maps.google.com/mapfiles/ms/icons/blue-dot.png</href>',10,...
+				'<href>https://cdn3.iconfinder.com/data/icons/objects/512/Dot-128.png</href>',10,...
 			'</Icon>',10,...
 		'</IconStyle>',10,...
     '</Style>',10];

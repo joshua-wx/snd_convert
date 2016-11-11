@@ -39,8 +39,9 @@ nc_lat = double(ncread(data_ffn,'latitude'));
 nc_h   = double(ncread(data_ffn,'height')).*1000; %convert to m
 
 %load wind data
-nc_vx = -double(ncread(data_ffn,'vx')); nc_vx(abs(nc_vx)==999)=nan;
-nc_vy = -double(ncread(data_ffn,'vy')); nc_vy(abs(nc_vy)==999)=nan;
+nc_vx  = -double(ncread(data_ffn,'vx')); nc_vx(abs(nc_vx)==999)=nan;
+nc_vy  = -double(ncread(data_ffn,'vy')); nc_vy(abs(nc_vy)==999)=nan;
+nc_dbz = double(ncread(data_ffn,'Z_R2_INTERP')); nc_dbz(abs(nc_dbz)==999)=nan;
 
 if length(plat) == 1
     %vertical profile extraction
@@ -64,15 +65,43 @@ else
     profile_wlon = zeros(length(plat),1);
     profile_wdt  = zeros(length(plat),1);
     for i=1:length(plat)
-        [~,lon_ind]     = min(abs(nc_lon-plon(i)));
-        [~,lat_ind]     = min(abs(nc_lat-plat(i)));
+        
+        %find nearest height
         [~,h_ind]       = min(abs(nc_h-ph(i)));
-        profile_vx(i)   = reshape(nc_vx(lon_ind,lat_ind,h_ind),1,1);
-        profile_vy(i)   = reshape(nc_vy(lon_ind,lat_ind,h_ind),1,1);   
-        profile_wlon(i) = nc_lon(lon_ind);
-        profile_wlat(i) = nc_lat(lat_ind);
+        %extract level data into lists
+        nc_vx_lvl       = nc_vx(:,:,h_ind); nc_vx_lvl_list = nc_vx_lvl(:);
+        nc_vy_lvl       = nc_vy(:,:,h_ind); nc_vy_lvl_list = nc_vy_lvl(:);
+        nc_dbz_lvl      = nc_dbz(:,:,h_ind);
+        
+        [nc_lon_g,nc_lat_g]        = ndgrid(nc_lon,nc_lat);
+        nc_lon_list                = nc_lon_g(:);
+        nc_lat_list                = nc_lat_g(:);   
+        
+        %apply nan masks
+        nan_mask       = isnan(nc_vy_lvl_list);
+        nc_lon_list    = nc_lon_list(~nan_mask);
+        nc_lat_list    = nc_lat_list(~nan_mask);
+        nc_vx_lvl_list = nc_vx_lvl_list(~nan_mask);
+        nc_vy_lvl_list = nc_vy_lvl_list(~nan_mask);
+        
+        %calc min distance
+        [arclen,~]         = distance(plat(i),plon(i),nc_lat_list,nc_lon_list);
+        [min_dist,min_ind] = min(deg2km(arclen));
+        
+        
+        profile_vx(i)   = nc_vx_lvl_list(min_ind);
+        profile_vy(i)   = nc_vy_lvl_list(min_ind);
         profile_h(i)    = nc_h(h_ind);
+        profile_wlon(i) = nc_lon_list(min_ind);
+        profile_wlat(i) = nc_lat_list(min_ind);
         profile_wdt(i)  = nc_time;
+        
+        %cut off
+        if min_dist>3
+            profile_vx(i) = nan;
+            profile_vy(i) = nan;
+        end
+        
     end
 end
 %mask null points
