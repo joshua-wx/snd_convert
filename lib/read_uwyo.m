@@ -35,7 +35,7 @@ function data = read_uwyo(station_num,snd_date,snd_hour)
 
 %Generate request url for uwyo
 base_url   = 'http://weather.uwyo.edu/cgi-bin/sounding?region=pac&TYPE=TEXT%3ALIST';
-day_hr_str = [num2str(day(snd_date),'%02i'),num2str(hour(snd_hour),'%02i')];
+day_hr_str = [num2str(day(snd_date),'%02i'),num2str(snd_hour,'%02i')];
 full_url   = [base_url,'&YEAR=',num2str(year(snd_date)),'&MONTH=',num2str(month(snd_date),'%02i'),...
     '&FROM=',day_hr_str,'&TO=',day_hr_str,'&STNM=',num2str(station_num)];
 %fetch url request
@@ -47,6 +47,10 @@ idx_data_start  = find(strncmp(uwyo_str,'    hPa',4)) + 2;
 idx_atts_start  = find(strncmp(uwyo_str,'</PRE><H3>',10)) + 1;
 idx_data_stop   = idx_atts_start - 2;
 idx_atts_stop   = idx_atts_start + 5;
+if isempty(idx_data_start) %check for no data
+    data = [];
+    return
+end
 %extract subsets
 snd_data        = uwyo_str(idx_data_start:idx_data_stop);
 snd_atts        = uwyo_str(idx_atts_start:idx_atts_stop);
