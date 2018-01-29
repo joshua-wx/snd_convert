@@ -48,6 +48,13 @@ nccreate(raob_ffn,'dwpt','Dimensions',{'height',len},'Datatype','double','Format
 ncwrite(raob_ffn,'dwpt',data.dwpt);
 ncwriteatt(raob_ffn,'dwpt','units','Celsius');
 
+%dwpt
+if isfield(data,'rh')
+    nccreate(raob_ffn,'rh','Dimensions',{'height',len},'Datatype','double','Format','netcdf4','FillValue',-999);
+    ncwrite(raob_ffn,'rh',data.rh);
+    ncwriteatt(raob_ffn,'rh','units','%');
+end
+
 %pres
 nccreate(raob_ffn,'pres','Dimensions',{'height',len},'Datatype','double','Format','netcdf4','FillValue',-999);
 ncwrite(raob_ffn,'pres',data.pres);

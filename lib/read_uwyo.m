@@ -27,6 +27,7 @@ function data = read_uwyo(station_num,snd_date,snd_hour)
 %                  .temp        (nx1 temperature - degC)
 %                  .tempv       (nx1 virtual temperature - degC)
 %                  .dwpt        (nx1 dew point temperature - degC
+%                  .rh          (nx1 relative humidity - %)
 %                  .wdir        (nx1 wind direction - degTN)
 %                  .wspd        (nx1 wind speed - m/s)
 %                  .wraob       (1x1 true for wind only sounding)
@@ -68,6 +69,7 @@ snd_pres  = empty_vec;
 snd_h     = empty_vec;
 snd_temp  = empty_vec;
 snd_dwpt  = empty_vec;
+snd_rh    = empty_vec;
 snd_wdir  = empty_vec;
 snd_wspd  = empty_vec;
 for i=1:length(snd_data)
@@ -76,6 +78,7 @@ for i=1:length(snd_data)
     tmp_h     = sscanf(snd_data{i}(8:14),'%f');   if ~isempty(tmp_h);     snd_h(i)    = tmp_h;     end
     tmp_temp  = sscanf(snd_data{i}(15:21),'%f');  if ~isempty(tmp_temp);  snd_temp(i) = tmp_temp;  end
     tmp_dwpt  = sscanf(snd_data{i}(22:28),'%f');  if ~isempty(tmp_dwpt);  snd_dwpt(i) = tmp_dwpt;  end
+    tmp_rh    = sscanf(snd_data{i}(29:35),'%f');  if ~isempty(tmp_rh);    snd_rh(i)   = tmp_rh;  end
     tmp_wdir  = sscanf(snd_data{i}(43:49),'%f');  if ~isempty(tmp_wdir);  snd_wdir(i) = tmp_wdir;  end
     tmp_wspd  = sscanf(snd_data{i}(50:56),'%f');  if ~isempty(tmp_wspd);  snd_wspd(i) = tmp_wspd.*0.514444;  end
 end
@@ -87,6 +90,7 @@ data.pres  = snd_pres;
 data.h     = snd_h;
 data.temp  = snd_temp;
 data.dwpt  = snd_dwpt;
+data.rh    = snd_rh;
 data.wdir  = snd_wdir;
 data.wspd  = snd_wspd;
 data.tempv = calc_tempv(snd_pres, snd_temp, snd_dwpt);

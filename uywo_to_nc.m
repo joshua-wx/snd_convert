@@ -5,11 +5,11 @@ function uywo_to_nc
 %WHAT: converts bom UA02D sounding data to oax for sharppy
 
 addpath('lib')
-out_path     = '/home/meso/ybbn_snding/';
+out_path     = '/home/meso/Desktop/hsda_processing/';
 station_name = 'YBBN';
 station_num  = 94578;
 date_list    = {'20170922','20171010','20171026','20171029','20171030','20171209','20171231','20180101','20180103'};
-snd_hour     = 11;
+snd_hour     = 00;
 
 for i=1:length(date_list)
     snd_date = datenum(date_list{i},'yyyymmdd');
