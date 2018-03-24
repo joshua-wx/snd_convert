@@ -7,7 +7,7 @@ function GRAW_to_oax
 %Note: the GRAW .txt outputs do not currently output a date.
 %Assuming a small number of conversions, just give them in array 'times'
 
-addpath('lib')
+addpath('../lib')
 sounding_name = 'Aspey';
 
 times = ['201605180200','201605180400','201605180430'];

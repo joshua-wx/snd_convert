@@ -4,7 +4,7 @@ function amdar_to_oax_kml
 
 %WHAT: converts bom UA02D sounding data to oax for sharppy
 
-addpath('lib')
+addpath('../lib')
 
 in_ffn    = 'tmp/data/kurnelltor_amdar.txt';
 

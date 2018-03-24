@@ -4,7 +4,7 @@ function UA02D_to_oax
 
 %WHAT: converts bom UA02D sounding data to oax for sharppy
 
-addpath('lib')
+addpath('../lib')
 station_name = 'ybbn';
 
 in_path   = '/media/meso/storage/ybbn_snding_data/';

@@ -4,7 +4,7 @@ function amdar_3dwind_extract_to_oax
 
 %WHAT: converts bom UA02D sounding data to oax for sharppy
 
-addpath('lib')
+addpath('../lib')
 
 amdar_ffn    = 'tmp/data/kurnelltor_amdar.txt';
 amdar_ffn    = 'tmp/data/kurnelltor_amdar.txt';

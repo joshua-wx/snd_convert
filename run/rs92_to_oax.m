@@ -4,7 +4,7 @@ function rs92_to_oax
 
 %WHAT: converts sondemonitor rs92 sounding data to oax for sharppy
 
-addpath('lib')
+addpath('../lib')
 station_name = 'ccie';
 
 out_path  = '/media/meso/DATA/phd/obs/profile/sounding/field/oax/';

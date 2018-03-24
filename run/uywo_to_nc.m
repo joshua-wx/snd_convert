@@ -4,7 +4,7 @@ function uywo_to_nc
 
 %WHAT: converts bom UA02D sounding data to oax for sharppy
 
-addpath('lib')
+addpath('../lib')
 out_path     = '/home/meso/Desktop/hsda_processing/';
 station_name = 'YBBN';
 station_num  = 94578;
